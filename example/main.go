@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/CC11001100/go-pointer"
+	"github.com/golang-infrastructure/go-pointer"
 )
 
 func main() {

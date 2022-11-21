@@ -1,4 +1,4 @@
-module github.com/CC11001100/go-pointer
+module github.com/golang-infrastructure/go-pointer
 
 go 1.18
 

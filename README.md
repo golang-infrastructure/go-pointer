@@ -1,12 +1,12 @@
 # Go Pointer
 
-# 引入依赖
+# 一、引入依赖
 
 ```text
 go get -u github.com/golang-infrastructure/go-pointer
 ```
 
-# 解决了什么问题
+# 二、解决了什么问题
 
 在golang中基本类型因为没有包装类型，这就导致基本类型无法区分出nil和零值，于是所以很多库都倾向于采用基本类型变量的指针来区分是没有传递还是传递了零值。
 
@@ -34,16 +34,16 @@ type Config struct {
 
 但是有时候这个值就是一个字面值常量传进去的，比如查询数据库时的分页大小等，这个时候如果要获取指针类型的话就有点麻烦，上面这个场景只是举了一个例子，这个模块就是用来解决类似的问题的。
 
-# Example Code
+# 三、Example Code
 
-目前已经支持泛型： 
+目前已经支持泛型：
 
 ```go
 package main
 
 import (
 	"fmt"
-	"github.com/CC11001100/go-pointer"
+	pointer "github.com/golang-infrastructure/go-reflect-utils"
 )
 
 func main() {
@@ -76,7 +76,7 @@ func main() {
 	fmt.Println(orDefault) // Output: 0
 }
 ```
-     
+
 
 
 
