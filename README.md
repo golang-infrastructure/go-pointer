@@ -1,5 +1,7 @@
 # Go Pointer
 
+[中文文档](./README.md) [English Document](./README_en.md)
+
 # 一、引入依赖
 
 ```text
