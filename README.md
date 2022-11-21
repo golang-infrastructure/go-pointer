@@ -3,12 +3,12 @@
 # 引入依赖
 
 ```text
-go get -u github.com/CC11001100/go-pointer 
+go get -u github.com/golang-infrastructure/go-pointer
 ```
 
 # 解决了什么问题
 
-在golang中基本类型因为没有包装类型，所以很多库都倾向于采用基本类型变量的指针来区分是没有传递还是传递了零值。
+在golang中基本类型因为没有包装类型，这就导致基本类型无法区分出nil和零值，于是所以很多库都倾向于采用基本类型变量的指针来区分是没有传递还是传递了零值。
 
 一个具体的例子，当不使用指针的时候，在执行任务的时候有个配置项：
 
@@ -32,77 +32,49 @@ type Config struct {
 
 ```
 
-但是有时候这个值就是一个字面值常量传进去的，这个时候如果要获取指针类型的话就有点麻烦，上面这个场景只是举了一个例子，这个模块就是用来解决类似的问题的。
-
-目前支持的数据类型：
-
-```text
-bool
-byte
-complex64
-complex128
-float32
-float64
-int
-int8
-int16
-int32
-int64
-rune
-string
-time.Duration
-time.Time
-uint
-uint8
-uint16
-uint32
-uint64
-```
+但是有时候这个值就是一个字面值常量传进去的，比如查询数据库时的分页大小等，这个时候如果要获取指针类型的话就有点麻烦，上面这个场景只是举了一个例子，这个模块就是用来解决类似的问题的。
 
 # Example Code
 
-其它类型用法类似：
+目前已经支持泛型： 
 
 ```go
+package main
 
-// 获取一个布尔指针，其值为true
-boolPointer := pointer.TruePointer()
-fmt.Println(reflect.TypeOf(boolPointer)) // output: *bool
-fmt.Println(*boolPointer) // output: true
+import (
+	"fmt"
+	"github.com/CC11001100/go-pointer"
+)
 
-// 获取一个布尔指针，其值为false
-boolPointer = pointer.FalsePointer()
-fmt.Println(reflect.TypeOf(boolPointer)) // output: *bool
-fmt.Println(*boolPointer) // output: false
+func main() {
 
-// 将布尔变量转换为布尔指针
-boolVar := true
-boolPointer = pointer.ToBoolPointer(boolVar)
-fmt.Println(reflect.TypeOf(boolPointer)) // output: *bool
-fmt.Println(*boolPointer) // output: true
-boolVar = false
-boolPointer = pointer.ToBoolPointer(boolVar)
-fmt.Println(reflect.TypeOf(boolPointer)) // output: *bool
-fmt.Println(*boolPointer)                // output: false
+	// 返回false的指针
+	falsePointer := pointer.FalsePointer()
+	fmt.Println(fmt.Sprintf("%T %v", falsePointer, *falsePointer)) // Output: *bool false
 
-// 将布尔变量转换为布尔指针，如果布尔的值为nil的话则返回nil指针
-boolVar = true
-boolPointer = pointer.ToBoolPointerOrNilIfFalse(boolVar)
-fmt.Println(reflect.TypeOf(boolPointer)) // output: *bool
-fmt.Println(*boolPointer) // output: true
-boolVar = false
-boolPointer = pointer.ToBoolPointerOrNilIfFalse(boolVar)
-fmt.Println(reflect.TypeOf(boolPointer)) // output: *bool
-fmt.Println(boolPointer) // output: <nil>
+	// 返回true的指针
+	truePointer := pointer.TruePointer()
+	fmt.Println(fmt.Sprintf("%T %v", truePointer, *truePointer)) // Output: *bool true
 
-// 读取布尔指针变量的值，如果值为nil的话则返回false
-boolVar = pointer.FromBoolPointer(pointer.FalsePointer())
-fmt.Println(boolVar)
+	// 返回对应类型的指针
+	v1 := 1
+	toPointer := pointer.ToPointer(v1)
+	fmt.Println(fmt.Sprintf("%T %v", toPointer, *toPointer)) // Output: *int 1
+	// 返回对应类型的指针，但是会检查值，如果值为对应类型的零值的话则返回nil
+	v1 = 0
+	orNil := pointer.ToPointerOrNil(v1)
+	fmt.Println(orNil) // Output: nil
 
-// 读取布尔变量的值，如果布尔指针为nil的话则返回给定的默认值，这个默认值可以是true或者false
-boolPointer = nil
-boolVar = pointer.FromBoolPointerOrDefault(boolPointer, true)
-fmt.Println(boolVar) // output: true
+	// 从指针读取值 ，如果为nil指针的话则返回对应类型的零值
+	v2 := 1
+	v3 := &v2
+	fromPointer := pointer.FromPointer(v3)
+	fmt.Println(fromPointer) // Output: 1
+	// 从指针读取值，如果是nil指针的话则返回给定的默认值
+	v2 = 0
+	orDefault := pointer.FromPointerOrDefault(v3, 1)
+	fmt.Println(orDefault) // Output: 0
+}
 ```
      
 
