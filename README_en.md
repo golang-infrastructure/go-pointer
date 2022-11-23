@@ -38,7 +38,55 @@ type Config struct {
 
 However, sometimes this value is passed in as a literal constant, such as the paging size when querying a database. In
 this case,
-getting a pointer type can be a bit of a hassle. The above scenario is just an example of a problem that this module is
+getting a pointer type can be a bit of a hassle:
+
+```go
+package main 
+
+func main() {
+    
+    foo := 10 
+    config := &Config{
+        Foo: &foo, 
+    }
+    callSomeFunction(config)
+    
+}
+```
+
+If using this library:
+
+```go
+package main 
+
+func main() {
+    
+    config := &Config{
+        Foo: pointer.ToPointer(10) 
+    }
+    callSomeFunction(config)
+    
+}
+```
+
+Diff:
+
+```diff
+package main 
+
+func main() {
+
+-	foo := 10 
+    config := &Config{
+-    	Foo: &foo, 
++       Foo: pointer.ToPointer(10) 
+    }
+    callSomeFunction(config)
+    
+}
+```
+
+The above scenario is just an example of a problem that this module is
 designed to solve.
 
 # 3. Example Code
@@ -83,7 +131,6 @@ func main() {
 	fmt.Println(orDefault) // Output: 0
 }
 ```
-
 
 
 
