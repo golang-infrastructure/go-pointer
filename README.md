@@ -34,7 +34,56 @@ type Config struct {
 
 ```
 
-但是有时候这个值就是一个字面值常量传进去的，比如查询数据库时的分页大小等，这个时候如果要获取指针类型的话就有点麻烦，上面这个场景只是举了一个例子，这个模块就是用来解决类似的问题的。
+但是有时候这个值就是一个字面值常量传进去的，比如查询数据库时的分页大小等，这个时候如果要获取指针类型的话就有点麻烦，比如：
+
+```go
+package main 
+
+func main() {
+    
+    foo := 10 
+    config := &Config{
+        Foo: &foo, 
+    }
+    callSomeFunction(config)
+    
+}
+```
+
+如果使用这个库的话：
+
+```go
+package main 
+
+func main() {
+    
+    config := &Config{
+        Foo: pointer.ToPointer(10) 
+    }
+    callSomeFunction(config)
+    
+}
+```
+
+Diff:
+
+```diff
+package main 
+
+func main() {
+
+-	foo := 10 
+
+    config := &Config{
+-    	Foo: &foo, 
++       Foo: pointer.ToPointer(10) 
+    }
+    callSomeFunction(config)
+    
+}
+```
+
+上面这个场景只是举了一个例子，这个模块就是用来解决类似的问题的。
 
 # 三、Example Code
 
@@ -78,7 +127,6 @@ func main() {
 	fmt.Println(orDefault) // Output: 0
 }
 ```
-
 
 
 
