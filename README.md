@@ -73,7 +73,6 @@ package main
 func main() {
 
 -	foo := 10 
-
     config := &Config{
 -    	Foo: &foo, 
 +       Foo: pointer.ToPointer(10) 
