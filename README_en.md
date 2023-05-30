@@ -129,6 +129,10 @@ func main() {
 	v2 = 0
 	orDefault := pointer.FromPointerOrDefault(v3, 1)
 	fmt.Println(orDefault) // Output: 0
+
+	// return time.Now() pointer 
+	nowPointer := pointer.Now()
+	fmt.Println(nowPointer) // Output: 2023-05-30 11:46:20.3695476 +0800 CST m=+0.003922101
 }
 ```
 

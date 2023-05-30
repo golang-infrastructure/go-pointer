@@ -1,6 +1,9 @@
 package pointer
 
-import reflectutils "github.com/golang-infrastructure/go-reflect-utils"
+import (
+	reflectutils "github.com/golang-infrastructure/go-reflect-utils"
+	"time"
+)
 
 // TruePointer 返回一个布尔指针，其值为true
 func TruePointer() *bool {
@@ -12,6 +15,11 @@ func TruePointer() *bool {
 func FalsePointer() *bool {
 	b := false
 	return &b
+}
+
+// Now 返回当前时间的指针
+func Now() *time.Time {
+	return ToPointer(time.Now())
 }
 
 // ToPointer 将布尔变量转换为布尔指针
