@@ -93,7 +93,7 @@ package main
 
 import (
 	"fmt"
-	pointer "github.com/golang-infrastructure/go-reflect-utils"
+	"github.com/golang-infrastructure/go-pointer"
 )
 
 func main() {
@@ -128,6 +128,19 @@ func main() {
 	// 返回当前时间的指针
 	nowPointer := pointer.Now()
 	fmt.Println(nowPointer) // Output: 2023-05-30 11:46:20.3695476 +0800 CST m=+0.003922101
+
+	// atomic.Bool指针 - true
+	atomicTruePointer := pointer.AtomicTruePointer()
+	fmt.Println(atomicTruePointer) // Output: &{{} 1}
+
+	// atomic.Bool指针 - false
+	atomicFalsePointer := pointer.AtomicFalsePointer()
+	fmt.Println(atomicFalsePointer) // Output: &{{} 0}
+
+	// atomic.Int64指针
+	int64Pointer := pointer.AtomicInt64Pointer(128)
+	fmt.Println(int64Pointer) // Output: &{{} {} 128}
+
 }
 ```
 

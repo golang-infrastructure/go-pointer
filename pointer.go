@@ -2,6 +2,7 @@ package pointer
 
 import (
 	reflectutils "github.com/golang-infrastructure/go-reflect-utils"
+	"sync/atomic"
 	"time"
 )
 
@@ -49,4 +50,40 @@ func FromPointerOrDefault[T any](valuePointer *T, defaultValue T) T {
 	} else {
 		return *valuePointer
 	}
+}
+
+func AtomicTruePointer() *atomic.Bool {
+	b := &atomic.Bool{}
+	b.Store(true)
+	return b
+}
+
+func AtomicFalsePointer() *atomic.Bool {
+	b := &atomic.Bool{}
+	b.Store(false)
+	return b
+}
+
+func AtomicUInt64Pointer(value uint64) *atomic.Uint64 {
+	i := &atomic.Uint64{}
+	i.Store(value)
+	return i
+}
+
+func AtomicUInt32Pointer(value uint32) *atomic.Uint32 {
+	i := &atomic.Uint32{}
+	i.Store(value)
+	return i
+}
+
+func AtomicInt64Pointer(value int64) *atomic.Int64 {
+	i := &atomic.Int64{}
+	i.Store(value)
+	return i
+}
+
+func AtomicInt32Pointer(value int32) *atomic.Int32 {
+	i := &atomic.Int32{}
+	i.Store(value)
+	return i
 }
