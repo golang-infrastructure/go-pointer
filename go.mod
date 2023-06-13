@@ -1,6 +1,6 @@
 module github.com/golang-infrastructure/go-pointer
 
-go 1.18
+go 1.19
 
 require (
 	github.com/golang-infrastructure/go-reflect-utils v0.0.0-20221118150121-07bd8584ebab
